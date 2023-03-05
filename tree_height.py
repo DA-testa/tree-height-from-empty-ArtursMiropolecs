@@ -21,9 +21,6 @@ def compute_height(n, parents):
 
 def main():
     input_str = input().strip()
-    if not input_str.isdigit():
-        print("Invalid input: expected an integer")
-        return
     n = int(input_str)
     parents = list(map(int, input().split()))
     height = compute_height(n, parents)
