@@ -20,29 +20,36 @@ def compute_height(n, parents):
 
 
 def main():
-    # check if the input is from a file or from the keyboard
-    input_type = input("Input from keyboard or file? (K/F): ")
-    if input_type.lower() == "k":
-        input_str = input("Enter the number of nodes and the parents of each node: ").strip()
-        input_lines = input_str.split("\n")
-    elif input_type.lower() == "f":
-        file_name = input("Enter the file name (without the letter 'a'): ")
-        while "a" in file_name:
-            file_name = input("Invalid file name. Enter a valid file name (without the letter 'a'): ")
+    print("Enter I or F:")
+   
+
+    input_type = input().strip().lower()
+    if "i" in input_type:
+        n = int(input("Enter the number of nodes: "))
+        parents = list(map(int, input("Enter the parents of each node: ").split()))
+    elif "f" in input_type:
+        filename = input("Enter the name of the input file: ")
+        if "a" in filename:
+            print("Invalid filename.")
+            return
+        file_path = "./test/" + filename
         try:
-            with open('./test/'+file_name) as file:
-                input_lines = file.readlines()
+            with open(file_path) as f:
+                n = int(f.readline())
+                parents = list(map(int, f.readline().split()))
         except FileNotFoundError:
             print("File not found.")
             return
     else:
-        print("Invalid input.")
+        print("Invalid input type.")
         return
 
-    n = int(input_lines[0])
-    parents = list(map(int, input_lines[1].split()))
-    height = compute_height(n, parents)
-    print(height)
+    print(compute_height(n, parents))
+
+
+if __name__ == "__main__":
+    main()
+
 
 
 # In Python, the default limit on recursion depth is rather low,
