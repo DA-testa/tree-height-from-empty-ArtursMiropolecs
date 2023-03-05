@@ -3,20 +3,26 @@ import threading
 
 
 def compute_height(n, parents):
-    # create an array to store the height of each node
-    heights = [0] * n
-
-    # find the root of the tree
-    root = None
+    tree = {}
     for i in range(n):
-        if parents[i] == -1:
+        tree[i] = []
+
+    for i in range(n):
+        parent = parents[i]
+        if parent == -1:
             root = i
         else:
-            # update the height of the parent node
-            heights[parents[i]] = max(heights[parents[i]], heights[i] + 1)
+            tree[parent].append(i)
 
-    # return the height of the root node
-    return heights[root] + 1
+    def progres(node):
+        if not tree[node]:
+            return 1
+        else:
+            max_height = 0
+            for child in tree[node]:
+                max_height = max(max_height, progres(child))
+            return max_height + 1
+    return progres(root)
 
 
 def main():
