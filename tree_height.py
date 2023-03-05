@@ -16,20 +16,25 @@ def compute_height(n, parents):
         else:
             tree[parent].append(i)
 
-    def progres(node):
+    def progress(node):
         if not tree[node]:
             return 1
         else:
             max_height = 0
             for child in tree[node]:
-                max_height = max(max_height, progres(child))
+                max_height = max(max_height, progress(child))
             return max_height + 1
-    return progres(root)
+    return progress(root)
+
 
 
 def main():
-    n = int(input().strip())
-    parents = list(map(int, input().strip().split()))
+    input_str = input().strip()
+    if not input_str.isdigit():
+        print("Invalid input: expected an integer")
+        return
+    n = int(input_str)
+    parents = list(map(int, input().split()))
     height = compute_height(n, parents)
     print(height)
 
