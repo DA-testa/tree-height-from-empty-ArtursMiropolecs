@@ -1,31 +1,22 @@
-# python3
-
 import sys
 import threading
 
 
 def compute_height(n, parents):
-    tree = {}
-    for i in range(n):
-        tree[i] = []
+    # create an array to store the height of each node
+    heights = [0] * n
 
+    # find the root of the tree
+    root = None
     for i in range(n):
-        parent = parents[i]
-        if parent == -1:
+        if parents[i] == -1:
             root = i
         else:
-            tree[parent].append(i)
+            # update the height of the parent node
+            heights[parents[i]] = max(heights[parents[i]], heights[i] + 1)
 
-    def progress(node):
-        if not tree[node]:
-            return 1
-        else:
-            max_height = 0
-            for child in tree[node]:
-                max_height = max(max_height, progress(child))
-            return max_height + 1
-    return progress(root)
-
+    # return the height of the root node
+    return heights[root] + 1
 
 
 def main():
@@ -37,6 +28,7 @@ def main():
     parents = list(map(int, input().split()))
     height = compute_height(n, parents)
     print(height)
+
 
 # In Python, the default limit on recursion depth is rather low,
 # so raise it here for this problem. Note that to take advantage
